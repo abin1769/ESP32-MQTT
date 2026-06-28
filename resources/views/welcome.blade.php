@@ -218,12 +218,6 @@
                             </button>
                         </form>
                     </div>
-
-                    <div class="bg-gray-900/50 p-2.5 rounded-xl border border-gray-800 text-[10px] text-gray-400 space-y-1">
-                        <div class="font-semibold text-gray-300">Default Credentials:</div>
-                        <div>Username: <code class="bg-gray-800 px-1 py-0.5 rounded text-gray-200">F1E324033</code></div>
-                        <div>Password: <code class="bg-gray-800 px-1 py-0.5 rounded text-gray-200">0052738487</code></div>
-                    </div>
                 </div>
             </div>
 
