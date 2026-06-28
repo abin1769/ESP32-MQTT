@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'ota' => [
+        'username' => env('OTA_DEFAULT_USERNAME', 'F1E324033'),
+        'password' => env('OTA_DEFAULT_PASSWORD', '0052738487'),
+    ],
+
 ];

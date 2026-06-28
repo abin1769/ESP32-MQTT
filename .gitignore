@@ -27,3 +27,15 @@ Homestead.yaml
 Thumbs.db
 
 .vercel
+
+# Arduino/ESP32 sketch configuration & build outputs
+/esp32_mqtt/config.h
+/esp32_mqtt/build/
+/esp32_mqtt/build_out/
+/esp32_mqtt/.pio/
+/esp32_mqtt/CMakeLists.txt
+/esp32_mqtt/project.ini
+/esp32_mqtt/*.bin
+/esp32_mqtt/*.elf
+/esp32_mqtt/*.hex
+

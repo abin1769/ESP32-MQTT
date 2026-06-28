@@ -173,6 +173,69 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('cmd-input').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendCommand();
     });
+
+    // Handler form upload firmware OTA secara lokal (bukan tab baru)
+    const otaForm = document.getElementById('ota-form');
+    if (otaForm) {
+        otaForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const fileInput = otaForm.querySelector('input[name="update"]');
+            if (!fileInput.files.length) return;
+            
+            const submitBtn = document.getElementById('ota-submit-btn');
+            const file = fileInput.files[0];
+            const espIp = document.getElementById('tele-ip').innerText;
+            
+            if (espIp === "--") {
+                appendLog("[SYSTEM] Error: ESP32 sedang offline!", "red");
+                return;
+            }
+            
+            // Set Loading state
+            submitBtn.disabled = true;
+            submitBtn.innerText = "UPLOADING FIRMWARE...";
+            submitBtn.className = "w-full bg-indigo-800 text-indigo-300 font-extrabold py-2 rounded-lg text-[10px] tracking-wider transition-all";
+            appendLog(`[SYSTEM] Memulai proses upload OTA ke ESP32 di IP: ${espIp}...`, "sky");
+            
+            const formData = new FormData();
+            formData.append('update', file);
+            formData.append('ip', espIp);
+            formData.append('username', otaForm.querySelector('input[name="username"]').value);
+            formData.append('password', otaForm.querySelector('input[name="password"]').value);
+            
+            const csrfToken = otaForm.querySelector('input[name="_token"]').value;
+            
+            fetch('/ota-proxy', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    appendLog(`[SYSTEM] OTA SUCCESS: ${data.message}`, "emerald");
+                    alert(data.message);
+                } else {
+                    appendLog(`[SYSTEM] OTA FAILED: ${data.message}`, "red");
+                    alert(`OTA Gagal: ${data.message}`);
+                }
+            })
+            .catch(err => {
+                console.error("Error OTA:", err);
+                appendLog(`[SYSTEM] OTA ERROR: Gagal mengirim request ke server proxy.`, "red");
+                alert("OTA Error: Gagal menghubungi server proxy.");
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "UPLOAD FIRMWARE";
+                submitBtn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-black font-extrabold py-2 rounded-lg text-[10px] tracking-wider cursor-pointer transition-all";
+                fileInput.value = '';
+            });
+        });
+    }
 });
 
 // Fungsi publish warna LED RGB ke MQTT
@@ -280,6 +343,25 @@ function updateEspStatus(isOnline) {
     }
 }
 
+let autoscrollEnabled = true;
+
+function toggleAutoscroll() {
+    autoscrollEnabled = !autoscrollEnabled;
+    const btn = document.getElementById('autoscroll-toggle');
+    if (btn) {
+        if (autoscrollEnabled) {
+            btn.innerText = "📌 Auto-Scroll: ON";
+            btn.className = "text-[10px] text-emerald-400 bg-emerald-950/50 hover:bg-emerald-900/50 border border-emerald-800/30 px-2 py-1 rounded transition-all";
+            
+            const terminal = document.getElementById('terminal');
+            if (terminal) terminal.scrollTop = terminal.scrollHeight;
+        } else {
+            btn.innerText = "📌 Auto-Scroll: OFF";
+            btn.className = "text-[10px] text-gray-400 bg-gray-800/50 hover:bg-gray-700/50 border border-gray-700/30 px-2 py-1 rounded transition-all";
+        }
+    }
+}
+
 function appendLog(text, colorClass) {
     const terminal = document.getElementById('terminal');
     if (!terminal) return;
@@ -295,8 +377,10 @@ function appendLog(text, colorClass) {
     line.innerText = text;
     terminal.appendChild(line);
     
-    // Auto-scroll ke bawah terminal log
-    terminal.scrollTop = terminal.scrollHeight;
+    // Auto-scroll ke bawah terminal log jika diaktifkan
+    if (autoscrollEnabled) {
+        terminal.scrollTop = terminal.scrollHeight;
+    }
 }
 
 function clearConsole() {
@@ -317,3 +401,4 @@ function formatUptime(seconds) {
 window.setPreset = setPreset;
 window.clearConsole = clearConsole;
 window.sendCommand = sendCommand;
+window.toggleAutoscroll = toggleAutoscroll;

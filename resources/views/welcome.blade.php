@@ -202,7 +202,14 @@
 
                     <div class="bg-gray-900/50 p-3 rounded-xl border border-gray-800 flex flex-col gap-2">
                         <span class="text-gray-400 font-semibold mb-1">Upload Firmware (.bin):</span>
-                        <form id="ota-form" action="" method="POST" enctype="multipart/form-data" target="_blank" class="flex flex-col gap-2">
+                        <form id="ota-form" class="flex flex-col gap-2">
+                            @csrf
+                            <div class="flex gap-2 mb-1">
+                                <input type="text" name="username" placeholder="Username OTA" value="{{ config('services.ota.username') }}" required
+                                    class="w-1/2 bg-black text-gray-200 border border-gray-800 rounded-lg px-2.5 py-1.5 text-[10px] focus:outline-none focus:border-indigo-500">
+                                <input type="password" name="password" placeholder="Password OTA" value="{{ config('services.ota.password') }}" required
+                                    class="w-1/2 bg-black text-gray-200 border border-gray-800 rounded-lg px-2.5 py-1.5 text-[10px] focus:outline-none focus:border-indigo-500">
+                            </div>
                             <input type="file" name="update" required
                                 class="w-full text-xs text-gray-400 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-950 file:text-indigo-300 hover:file:bg-indigo-900 cursor-pointer">
                             <button type="submit" id="ota-submit-btn" disabled
@@ -220,16 +227,21 @@
                 </div>
             </div>
 
-            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl flex-1 flex flex-col min-h-[300px]">
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl flex flex-col">
                 <div class="flex items-center justify-between border-b border-gray-800 pb-3 mb-4">
                     <div class="flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-ping"></span>
                         <h2 class="text-sm font-bold tracking-wider">LIVE DEBUG LOGS</h2>
                     </div>
-                    <button onclick="clearConsole()" class="text-[10px] text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded transition-all">Clear</button>
+                    <div class="flex items-center gap-2">
+                        <button id="autoscroll-toggle" onclick="toggleAutoscroll()" class="text-[10px] text-emerald-400 bg-emerald-950/50 hover:bg-emerald-900/50 border border-emerald-800/30 px-2 py-1 rounded transition-all">
+                            📌 Auto-Scroll: ON
+                        </button>
+                        <button onclick="clearConsole()" class="text-[10px] text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded transition-all">Clear</button>
+                    </div>
                 </div>
 
-                <div id="terminal" class="bg-black text-green-400 font-mono text-xs p-4 h-56 overflow-y-auto rounded-xl border border-gray-800 flex-1 space-y-1">
+                <div id="terminal" class="bg-black text-green-400 font-mono text-xs p-4 h-64 overflow-y-auto rounded-xl border border-gray-800 space-y-1">
                     <div class="text-gray-500">[SYSTEM] Menunggu koneksi broker...</div>
                 </div>
 

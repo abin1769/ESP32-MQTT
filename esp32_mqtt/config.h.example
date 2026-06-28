@@ -1,0 +1,13 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+// --- Konfigurasi WiFi ---
+const char* ssid = "NAMA_WIFI_ANDA";
+const char* password = "PASSWORD_WIFI_ANDA";
+
+// --- Konfigurasi Web OTA ---
+const char* host = "esp32-webupdate";
+const char* authUser = "USERNAME_OTA_ANDA";
+const char* authPass = "PASSWORD_OTA_ANDA";
+
+#endif
