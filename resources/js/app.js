@@ -115,6 +115,20 @@ client.on('message', (topic, payload) => {
             document.getElementById('tele-cpu').innerText = `${data.cpu} MHz`;
             document.getElementById('tele-uptime').innerText = formatUptime(data.uptime);
 
+            // IP Address & OTA Form Action Setup
+            if (data.ip) {
+                const teleIpEl = document.getElementById('tele-ip');
+                if (teleIpEl) teleIpEl.innerText = data.ip;
+                
+                const otaForm = document.getElementById('ota-form');
+                const otaSubmitBtn = document.getElementById('ota-submit-btn');
+                if (otaForm && otaSubmitBtn) {
+                    otaForm.action = `http://${data.ip}/update`;
+                    otaSubmitBtn.disabled = false;
+                    otaSubmitBtn.className = "w-full bg-indigo-600 hover:bg-indigo-500 text-black font-extrabold py-2 rounded-lg text-[10px] tracking-wider cursor-pointer transition-all";
+                }
+            }
+
         } catch (e) {
             console.error("Gagal parse Telemetry JSON:", e);
         }
@@ -252,6 +266,16 @@ function updateEspStatus(isOnline) {
             document.getElementById('humi-val').innerText = "--";
             document.getElementById('dist-val').innerText = "--";
             document.getElementById('dist-bar').style.width = "0%";
+
+            // Kosongkan IP & Nonaktifkan OTA Button jika offline
+            const teleIpEl = document.getElementById('tele-ip');
+            if (teleIpEl) teleIpEl.innerText = "--";
+            
+            const otaSubmitBtn = document.getElementById('ota-submit-btn');
+            if (otaSubmitBtn) {
+                otaSubmitBtn.disabled = true;
+                otaSubmitBtn.className = "w-full bg-indigo-600/50 cursor-not-allowed text-white font-extrabold py-2 rounded-lg text-[10px] tracking-wider transition-all";
+            }
         }
     }
 }

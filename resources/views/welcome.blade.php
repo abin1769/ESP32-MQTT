@@ -189,6 +189,37 @@
                 </div>
             </div>
 
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl">
+                <h2 class="text-base font-bold mb-4 flex items-center gap-2">
+                    <span class="text-indigo-400">🔄</span> Firmware Update (Web OTA)
+                </h2>
+                
+                <div class="flex flex-col gap-3.5 text-xs">
+                    <div class="flex justify-between items-center bg-gray-900/50 p-2.5 rounded-xl border border-gray-800">
+                        <span class="text-gray-400">ESP32 IP Address:</span>
+                        <span id="tele-ip" class="font-bold text-indigo-400">--</span>
+                    </div>
+
+                    <div class="bg-gray-900/50 p-3 rounded-xl border border-gray-800 flex flex-col gap-2">
+                        <span class="text-gray-400 font-semibold mb-1">Upload Firmware (.bin):</span>
+                        <form id="ota-form" action="" method="POST" enctype="multipart/form-data" target="_blank" class="flex flex-col gap-2">
+                            <input type="file" name="update" required
+                                class="w-full text-xs text-gray-400 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-indigo-950 file:text-indigo-300 hover:file:bg-indigo-900 cursor-pointer">
+                            <button type="submit" id="ota-submit-btn" disabled
+                                class="w-full bg-indigo-600/50 cursor-not-allowed text-white font-extrabold py-2 rounded-lg text-[10px] tracking-wider transition-all">
+                                UPLOAD FIRMWARE
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="bg-gray-900/50 p-2.5 rounded-xl border border-gray-800 text-[10px] text-gray-400 space-y-1">
+                        <div class="font-semibold text-gray-300">Default Credentials:</div>
+                        <div>Username: <code class="bg-gray-800 px-1 py-0.5 rounded text-gray-200">F1E324033</code></div>
+                        <div>Password: <code class="bg-gray-800 px-1 py-0.5 rounded text-gray-200">0052738487</code></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="bg-gray-900 border border-gray-800 rounded-2xl p-6 shadow-xl flex-1 flex flex-col min-h-[300px]">
                 <div class="flex items-center justify-between border-b border-gray-800 pb-3 mb-4">
                     <div class="flex items-center gap-2">
