@@ -75,8 +75,8 @@ Kredensial disimpan secara terpisah di file [config.h](file:///D:/ABIN/ESP32-MQT
 Kredensial default dashboard dipindahkan ke file `.env` Laravel dan dimuat secara dinamis via `config/services.php`:
 * **Di file `.env`:**
   ```env
-  OTA_DEFAULT_USERNAME=F1E324033
-  OTA_DEFAULT_PASSWORD=0052738487
+  OTA_DEFAULT_USERNAME=cth-user
+  OTA_DEFAULT_PASSWORD=cth-pass
   ```
 * **Di file Blade / Controller:** Diakses menggunakan sintaks Laravel:
   `config('services.ota.username')` dan `config('services.ota.password')`.
