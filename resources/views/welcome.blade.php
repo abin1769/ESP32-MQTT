@@ -205,9 +205,9 @@
                         <form id="ota-form" class="flex flex-col gap-2">
                             @csrf
                             <div class="flex gap-2 mb-1">
-                                <input type="text" name="username" placeholder="Username OTA" value="{{ config('services.ota.username') }}" required
+                                <input type="text" name="username" placeholder="Username OTA" required
                                     class="w-1/2 bg-black text-gray-200 border border-gray-800 rounded-lg px-2.5 py-1.5 text-[10px] focus:outline-none focus:border-indigo-500">
-                                <input type="password" name="password" placeholder="Password OTA" value="{{ config('services.ota.password') }}" required
+                                <input type="password" name="password" placeholder="Password OTA" required
                                     class="w-1/2 bg-black text-gray-200 border border-gray-800 rounded-lg px-2.5 py-1.5 text-[10px] focus:outline-none focus:border-indigo-500">
                             </div>
                             <input type="file" name="update" required
